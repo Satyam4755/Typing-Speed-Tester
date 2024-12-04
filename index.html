@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Tester</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        h1 { 
+            padding: 5px;
+            border-radius: 8px;
+            background: linear-gradient(135deg,#c33764, #1d2671);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        h2, h3 {
+            font-size: 1.25em;
+            margin: 15px 0;
+        }
+
+        .main {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px 0;
+            width: calc(100% - 20px);
+            border-radius: 5px;
+            border: none;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            button {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+
+            .main {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            button {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>The Typing Speed Tester</h1>
+    <div class="main" id="main">
+        <div class="des" id="des">
+            <h3>This is the simple typing tester where you can test your typing speed and evaluate yourself! Follow these steps:
+                <ol>
+                    <li>Enter your name</li>
+                    <li>Click the start button</li>
+                    <li>Start typing the given sentence</li>
+                </ol>
+            </h3>
+        </div>
+        <div class="name" id="name">
+            <input type="text" placeholder="Enter your name:" id="inputName">
+        </div>
+        <button id="start" onclick="shuru()">Start</button>
+    </div>
+
+    <script>
+        // shuru function me hi sab added rahega
+        function shuru() {
+            const main = document.getElementById("main");
+            const inputElement = document.querySelector("#name input");
+            const inputValue = inputElement.value;
+
+            // Hiding main content
+            main.style = "opacity:0;position:absolute;z-index:-1";
+
+            // Adding new heading
+            const nextHeading = document.createElement("h2");
+            nextHeading.textContent = `Hello ${inputValue}!!`;
+            nextHeading.style = "z-index:1;font-size: 2em; color: lightyellow; text-align: center;";
+            document.body.appendChild(nextHeading);
+
+            // Adding the text to type...
+            const command = document.createElement("h3");
+            command.textContent = `Type: Coding is fun, and it helps solve problems daily.`;
+            nextHeading.appendChild(command);
+
+            // Countdown
+            const time = document.createElement("h3");
+            let timeLeft = 10;
+            time.style = "text-align: center; color: lightcoral; font-weight: bold;";
+            document.body.appendChild(time);
+
+            const timer = setInterval(() => {
+                time.textContent = `${timeLeft} seconds remaining to start typing...`;
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    time.remove();
+
+                    // input for typing
+                    const commandInput = document.createElement("input");
+                    commandInput.type = "text";
+                    commandInput.placeholder = "Enter the sentence here...";
+                    commandInput.style = "display: block; margin: 10px auto; padding: 5px; font-size: 1em;";
+                    document.body.appendChild(commandInput);
+
+                    // submit button
+                    const submitButton = document.createElement("button");
+                    submitButton.textContent = "Submit";
+                    submitButton.style = "display: block; margin: 10px auto; padding: 10px; font-size: 1em;";
+                    document.body.appendChild(submitButton);
+
+                    // submit krne ke liye countdown
+                    let newTimeLeft = 30;
+                    const newTimer = setInterval(() => {
+                        newTimeLeft--;
+
+                        // agar time pura ho jaye tab....
+                        if (newTimeLeft <= 0) {
+                            clearInterval(newTimer);
+                            alert("Time's up! You didn't submit in time.");
+                            commandInput.remove();
+                            submitButton.remove();
+                            location.reload();
+                        }
+                    }, 1000);
+
+                    // submit button pe action..
+                    submitButton.addEventListener("click", () => {
+                        clearInterval(newTimer); // ---submit pe timer stop ho jayega
+
+                        if (newTimeLeft >= 20) {
+                            alert("You are great!");
+                        } else if (newTimeLeft >= 10) {
+                            alert("You're a little bit slower.");
+                        } else {
+                            alert("You're too slow! Improve your typing speed.");
+                        }
+
+                        // Remove input and button after submission
+                        commandInput.remove();
+                        submitButton.remove();
+
+                        // Create restart button
+                        const restart = document.createElement("button");
+                        restart.textContent = "Restart";
+                        restart.style = "display: block; margin: 10px auto; padding: 10px; font-size: 1em;";
+                        document.body.appendChild(restart);
+
+                        restart.addEventListener("click", () => {
+                            location.reload();
+                        });
+                    });
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
