@@ -20,15 +20,16 @@
             text-align: center;
         }
 
-        h1 { 
+        h1 {
             padding: 5px;
             border-radius: 8px;
-            background: linear-gradient(135deg,#c33764, #1d2671);
+            background: linear-gradient(135deg, #c33764, #1d2671);
             font-size: 2.5em;
             margin-bottom: 20px;
         }
 
-        h2, h3 {
+        h2,
+        h3 {
             font-size: 1.25em;
             margin: 15px 0;
         }
@@ -102,7 +103,8 @@
     <h1>The Typing Speed Tester</h1>
     <div class="main" id="main">
         <div class="des" id="des">
-            <h3>This is the simple typing tester where you can test your typing speed and evaluate yourself! Follow these steps:
+            <h3>This is the simple typing tester where you can test your typing speed and evaluate yourself! Follow
+                these steps:
                 <ol>
                     <li>Enter your name</li>
                     <li>Click the start button</li>
@@ -117,6 +119,19 @@
     </div>
 
     <script>
+
+
+        // for random list of sentences
+        let sentences = ["Coding is fun, and it helps solve problems daily.",
+            "The golden sun sets behind the mountains and trees.",
+            "A gentle breeze flows across the calm and quiet lake.",
+            "Stars twinkle brightly in the vast, dark night sky.",
+            "The sound of waves crashing soothes my restless mind.",
+            "Flowers bloom in spring, painting fields with vibrant hues.",
+            "Raindrops gently fall, creating music on the rooftop."];
+            let randomSentence=Math.floor(Math.random()*sentences.length);
+            console.log(sentences[randomSentence]);
+
         // shuru function me hi sab added rahega
         function shuru() {
             const main = document.getElementById("main");
@@ -134,7 +149,7 @@
 
             // Adding the text to type...
             const command = document.createElement("h3");
-            command.textContent = `Type: Coding is fun, and it helps solve problems daily. (in 30 seconds only)`;
+            command.textContent = sentences[randomSentence];
             nextHeading.appendChild(command);
 
             // Countdown
@@ -183,11 +198,28 @@
                         clearInterval(newTimer); // ---submit pe timer stop ho jayega
 
                         if (newTimeLeft >= 20) {
-                            alert("You are great!");
+                            if (commandInput.value === sentences[randomSentence]) {
+                                alert("You are great!");
+                            }
+                            else {
+                                alert("you've written wrong sentence, restart to write it again")
+                            }
                         } else if (newTimeLeft >= 10) {
-                            alert("You're a little bit slower.");
+                            if (commandInput.value === sentences[randomSentence]) {
+                                alert("You're a little bit slower.");
+                            }
+                            else {
+                                alert("you've written wrong sentence, restart to write it again")
+                            }
+
                         } else {
-                            alert("You're too slow! Improve your typing speed.");
+                            if (commandInput.value === sentences[randomSentence]) {
+                                alert("You're too slow! Improve your typing speed.");
+                            }
+                            else {
+                                alert("you've written wrong sentence, restart to write it again")
+                            }
+
                         }
 
                         // Remove input and button after submission
